@@ -250,9 +250,11 @@ class ExplorerActivity : BaseExplorerActivity() {
                 menu.findItem(R.id.share).isVisible = false
             }
             val anyItemSelected = explorerAdapter.selectedItems.isNotEmpty()
+            val singleSelectedFile = anyItemSelected && explorerAdapter.selectedItems.size == 1 && !explorerElements[explorerAdapter.selectedItems.first()].isDirectory
             menu.findItem(R.id.select_all).isVisible = anyItemSelected
             menu.findItem(R.id.delete).isVisible = anyItemSelected
             menu.findItem(R.id.copy).isVisible = anyItemSelected
+            menu.findItem(R.id.duplicate).isVisible = singleSelectedFile
             menu.findItem(R.id.cut).isVisible = anyItemSelected
             menu.findItem(R.id.decrypt).isVisible = anyItemSelected && usf_decrypt
             if (anyItemSelected && usf_share){
@@ -296,6 +298,28 @@ class ExplorerActivity : BaseExplorerActivity() {
                 }
                 currentItemAction = ItemsActions.COPY
                 unselectAll()
+                true
+            }
+            R.id.duplicate -> {
+                val selectionIndex = explorerAdapter.selectedItems.first()
+                val selectedFile = explorerElements[selectionIndex]
+                EditTextDialog(this, R.string.enter_new_name)
+                    .setSelectedText(selectedFile.name)
+                    .onSubmit { newName ->
+                        val cleanedName = newName.trim()
+                        if (cleanedName.isEmpty()) {
+                            Toast.makeText(this, R.string.error_filename_empty, Toast.LENGTH_SHORT).show()
+                            return@onSubmit
+                        }
+                        activityScope.launch {
+                            val result = fileOperationService.duplicateFile(volumeId, selectedFile.fullPath, cleanedName)
+                            onTaskResult(result, R.string.duplicate_failed, R.string.duplicate_success)
+                            refreshCurrentDirectory()
+                        }
+                        unselectAll()
+                        invalidateOptionsMenu()
+                    }
+                    .show()
                 true
             }
             R.id.validate -> {
@@ -461,7 +485,7 @@ class ExplorerActivity : BaseExplorerActivity() {
      * Check for destination overwriting in case of a move operation.
      *
      * If the user decides to merge the content of a folder, the function recursively tests all
-     * children of the source folder to see if they will overwrite.
+     * the children of the source folder to see if they will overwrite.
      *
      * The items to be moved are stored in [toMove]. We also need to keep track of the merged
      * folders to delete them after the move. These folders are stored in [toClean].
