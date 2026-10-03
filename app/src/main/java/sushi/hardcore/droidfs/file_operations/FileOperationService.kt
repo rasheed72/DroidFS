@@ -740,4 +740,32 @@ class FileOperationService : Service() {
         })
         return CopyVolumeResult(result, dstRootDirectory.value)
     }
+
+    /**
+     * Duplicate a file within the same encrypted volume.
+     * 
+     * @param volumeId The ID of the encrypted volume
+     * @param srcFilePath The path of the file to duplicate
+     * @param dstFileName The name of the duplicated file
+     * @return A TaskResult containing an error message if the operation failed, or null if successful
+     */
+    suspend fun duplicateFile(volumeId: Int, srcFilePath: String, dstFileName: String): TaskResult<out String?> {
+        return volumeTask(R.string.file_op_copy_msg, 1, volumeId) { taskId, encryptedVolume ->
+            val parentPath = PathUtils.getParentPath(srcFilePath)
+            val dstFilePath = PathUtils.pathJoin(parentPath, dstFileName)
+            
+            // Check if destination file already exists
+            if (encryptedVolume.pathExists(dstFilePath)) {
+                return@volumeTask "File already exists"
+            }
+            
+            // Copy the file
+            if (!copyFile(encryptedVolume, srcFilePath, dstFilePath, encryptedVolume)) {
+                return@volumeTask srcFilePath
+            }
+            
+            updateNotificationProgress(taskId, 1, 1)
+            null
+        }
+    }
 }
