@@ -51,6 +51,9 @@
     <string name="rename">Rename</string>
     <string name="rename_title">New name:</string>
     <string name="rename_failed">Failed to rename %s</string>
+    <string name="duplicate">Duplicate</string>
+    <string name="duplicate_failed">Duplicate of %s failed.</string>
+    <string name="duplicate_success">Duplicate successful !</string>
     <string name="sort_order">Sort order:</string>
     <string name="change_password_failed">Operation failed. Please check your old password.</string>
     <string name="share_menu_label">Encrypt with DroidFS</string>
@@ -77,7 +80,7 @@
     <string name="unsafe_features">Unsafe Features</string>
     <string name="manage_unsafe_features">Manage unsafe features</string>
     <string name="manage_unsafe_features_summary">Enable/Disable unsafe features</string>
-    <string name="usf_home_warning_msg">DroidFS aims to be as secure as possible. However, security often involves lack of comfort. This is why DroidFS offers you additional unsafe features that you can enable and disable according to your needs.\n\nWarning: these features can be UNSAFE. Do not use them unless you know exactly what you are doing. It is highly recommended to read the documentation before enabling them.</string>
+    <string name="usf_home_warning_msg">DroidFS aims to be as secure as possible. However, security often involves lack of comfort. This is why DroidFS offers you additional unsafe features that may be useful to you.</string>
     <string name="see_unsafe_features">See unsafe features</string>
     <string name="open_as">Open as</string>
     <string name="image">Image</string>
@@ -146,7 +149,7 @@
     <string name="error_retrieving_filename">Unable to retrieve file name for URI: %s</string>
     <string name="hidden_volume">Hidden volume</string>
     <string name="error_slash_in_name">Volume name cannot contain slashes</string>
-    <string name="hidden_volume_warning">Hidden volumes are stored in the app\'s internal storage. Other apps can\'t see these volumes without root access. However, if you uninstall DroidFS or clear the app\'s data, all your hidden volumes will be LOST. Be sure to make backups !</string>
+    <string name="hidden_volume_warning">Hidden volumes are stored in the app\'s internal storage. Other apps can\'t see these volumes without root access. However, if you uninstall DroidFS or clear app data, they may be lost.</string>
     <string name="camera_perm_needed">Camera permission is needed to take photo.</string>
     <string name="choose_resolution">Choose a resolution</string>
     <string name="file_operations">File Operations</string>
@@ -258,7 +261,7 @@
     <string name="unknown_error_code">Unknown error code: %d</string>
     <string name="config_load_error">The configuration file cannot be loaded. Make sure the volume is accessible.</string>
     <string name="wrong_password">The configuration file cannot be decrypted. Please check your password.</string>
-    <string name="filesystem_id_changed">The filesystem id in the config file is different to the last time we opened this volume. This could mean an attacker replaced the filesystem with a different one.</string>
+    <string name="filesystem_id_changed">The filesystem id in the config file is different to the last time we opened this volume. This could mean an attacker replaced the filesystem with a different volume.</string>
     <string name="inaccessible_base_dir">The volume doesn\'t exist or is inaccessible.</string>
     <string name="task_failed">The task failed: %s</string>
     <string name="usf_expose">Expose open volumes</string>
